@@ -88,6 +88,11 @@ app.get('/test', async(req, res)=> {
         message : "Working well"
     })
 })
+app.post('/getAll', async(req, res)=> {
+    res.status(200).json({
+        message : "Working well"
+    })
+})
 app.post('/', async(req, res)=> {
 
    
