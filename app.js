@@ -26,12 +26,20 @@ async function runQueries(db,req,res) {
         if(`${key}`=="size_range"){
             var ranged_size = `${value}`.split(',');
             if((ranged_size).includes("max")){
-                ch +="and carats"+"<="+JSON.stringify(ranged_size[0])+""
+                if(ch.length == ch1.length ){
+                    ch +=" carats"+" <= "+JSON.stringify(ranged_size[0])+""
+                }else
+                ch +="and carats"+" <= "+JSON.stringify(ranged_size[0])+""
             }else if(ranged_size.includes("min")){
-                ch +="and carats"+">="+JSON.stringify(ranged_size[1])+""
+                if(ch.length == ch1.length ){
+                    ch +=" carats"+" >= "+JSON.stringify(ranged_size[1])+""
+                }else
+                ch +="and carats"+" >= "+JSON.stringify(ranged_size[1])+""
             }else{
-                
-                ch +=" and ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"
+                if(ch.length == ch1.length ){
+                ch +=" and ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"}
+                else
+                ch +=" ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"
                 
             }
         }else{
@@ -82,6 +90,7 @@ async function runQueries(db,req,res) {
         })
     });
 }
+
 
 app.post('/getAll', async(req, res)=> {
     res.status(200).json({
