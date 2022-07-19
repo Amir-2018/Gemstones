@@ -26,12 +26,12 @@ async function runQueries(db,req,res) {
         if(`${key}`=="size_range"){
             var ranged_size = `${value}`.split(',');
             if((ranged_size).includes("max")){
-                ch +="and carats"+"="+JSON.stringify(ranged_size[0])+""
+                ch +="and carats"+"<="+JSON.stringify(ranged_size[0])+""
             }else if(ranged_size.includes("min")){
-                ch +="and carats"+"="+JSON.stringify(ranged_size[1])+""
+                ch +="and carats"+">="+JSON.stringify(ranged_size[1])+""
             }else{
                 
-                ch +=" and carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])
+                ch +=" and ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"
                 
             }
         }else{
@@ -45,9 +45,9 @@ async function runQueries(db,req,res) {
                                 ch +=" and "+`${key}`+"="+JSON.stringify(words[a])
                             }else{
                                 if(ch.length == ch1.length )
-                                    ch +=`${key}`+"="+JSON.stringify(words[a])+""   
+                                    ch +="("+`${key}`+"="+JSON.stringify(words[a])+""   
                                 else
-                                    ch +=" or "+`${key}`+"="+JSON.stringify(words[a])
+                                    ch +=" or "+`${key}`+"="+JSON.stringify(words[a])+")"
                             }
                                                 
                         }
