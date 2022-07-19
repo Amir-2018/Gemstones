@@ -83,17 +83,12 @@ async function runQueries(db,req,res) {
     });
 }
 
-app.get('/test', async(req, res)=> {
-    res.status(200).json({
-        message : "Working well"
-    })
-})
 app.post('/getAll', async(req, res)=> {
     res.status(200).json({
         message : "Working well"
     })
 })
-app.post('/', async(req, res)=> {
+app.post('/search', async(req, res)=> {
 
    
     var db=new sqlite3.Database('./nat.db', sqlite3.OPEN_READONLY, (err) => {
