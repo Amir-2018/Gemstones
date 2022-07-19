@@ -42,7 +42,7 @@ async function runQueries(db,req,res) {
                         for(var a=0;a<words.length;a++){
                         count ++ ;
                             if(count==1 && (ch.length != ch1.length)){
-                                ch +=" and "+`${key}`+"="+JSON.stringify(words[a])
+                                ch +="and ("+`${key}`+"="+JSON.stringify(words[a])
                             }else{
                                 if(ch.length == ch1.length )
                                     ch +="("+`${key}`+"="+JSON.stringify(words[a])+""   
