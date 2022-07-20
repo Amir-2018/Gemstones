@@ -37,9 +37,9 @@ async function runQueries(db,req,res) {
                 ch +="and carats"+" >= "+JSON.stringify(ranged_size[1])+""
             }else{
                 if(ch.length == ch1.length ){
-                ch +=" and ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"}
+                ch +=" ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"}
                 else
-                ch +=" ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"
+                ch +=" and ( carats "+"BETWEEN "+(ranged_size[0])+" AND "+(ranged_size[1])+")"
                 
             }
         }else{
