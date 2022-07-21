@@ -97,7 +97,7 @@ app.post('/getAll', async(req, res)=> {
         message : "Working well"
     })
 })
-app.get('/search', async(req, res)=> {
+app.post('/search', async(req, res)=> {
 
    
     var db=new sqlite3.Database('./nat.db', sqlite3.OPEN_READONLY, (err) => {
