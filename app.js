@@ -1,32 +1,33 @@
 const csvdb = require('csv-database');
 const express = require('express');
 const app = express()
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
+const cors = require('cors');
 var sqlite3 = require('sqlite3');
 var bodyParser = require('body-parser')
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors({
+    origin: "*"
+}));
 async function runQueries(db,req,res) {
     
     return new Promise((resolve, reject) => {
         var obj = req.body 
-        
         var result=[]
         
         // delete properties with null value
 
         Object.keys(obj).forEach(key => {
-            if (obj[key] === null ) {
+            if (obj[key] === null) {
               delete obj[key];
-              
             }
-            
         });
         // delete null values from json format request
         if(Object.keys(obj).length==0)
             ch = "select * from `nat`" ;
         else
-             ch = "select * from `nat` where " ;
+            ch = "select * from `nat` where " ;
         ch1 = ch
         for (const [key, value] of Object.entries(obj)) {
         if(`${key}`=="size_range"){
@@ -80,13 +81,14 @@ async function runQueries(db,req,res) {
         }
         db.all(ch,(err, rows) => {
             console.log("request = "+ch)
-
+            try{
                 rows.forEach(row => {
 
                     result.push(row);          
                 });
 
             //
+            }catch(error){  resolve("no result");}
             if (err)
             {                
                 reject(err); 
@@ -97,11 +99,14 @@ async function runQueries(db,req,res) {
     });
 }
 
+
 app.post('/getAll', async(req, res)=> {
     res.status(200).json({
         message : "Working well"
     })
 })
+
+
 app.post('/search', async(req, res)=> {
 
    
@@ -123,10 +128,7 @@ if((Object.keys(req.body).length)==0){
         message : "No data founded"
       })
 }else{
-    //res.status(200).json({
-       // message : await runQueries(db,req,res)
-       res.send(await runQueries(db,req,res))
-       console.log(ch)
+    res.status(200).json(await runQueries(db,req,res));
       //})
 }
 
