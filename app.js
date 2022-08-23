@@ -1,7 +1,7 @@
 const csvdb = require('csv-database');
 const express = require('express');
 const app = express()
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 var sqlite3 = require('sqlite3');
 var bodyParser = require('body-parser')
 app.use(express.json());
@@ -10,17 +10,23 @@ async function runQueries(db,req,res) {
     
     return new Promise((resolve, reject) => {
         var obj = req.body 
+        
         var result=[]
         
         // delete properties with null value
 
         Object.keys(obj).forEach(key => {
-            if (obj[key] === null) {
+            if (obj[key] === null ) {
               delete obj[key];
+              
             }
+            
         });
         // delete null values from json format request
-        ch = "select * from `nat` where " ;
+        if(Object.keys(obj).length==0)
+            ch = "select * from `nat`" ;
+        else
+             ch = "select * from `nat` where " ;
         ch1 = ch
         for (const [key, value] of Object.entries(obj)) {
         if(`${key}`=="size_range"){
@@ -90,7 +96,6 @@ async function runQueries(db,req,res) {
         })
     });
 }
-
 
 app.post('/getAll', async(req, res)=> {
     res.status(200).json({
